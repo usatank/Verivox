@@ -21,8 +21,8 @@ namespace ElectricityServiceApi.Tests
             _providerName = "Test Provider";
             _electricityTariffs = new List<ElectricityTariff>
             {
-                new ElectricityTariff () { Provider = _providerName, Name = "Product A", Type = 1, BaseCost = 10, AdditionalKwhCost = 25 },
-                new ElectricityTariff () { Provider = _providerName, Name = "Product B", Type = 2, IncludedKwh = 4000, BaseCost = 850, AdditionalKwhCost = 35 }
+                new ElectricityTariff () { Provider = _providerName, Name = "Product A", Type = 1, BaseCost = 5, AdditionalKwhCost = 22 },
+                new ElectricityTariff () { Provider = _providerName, Name = "Product B", Type = 2, IncludedKwh = 4000, BaseCost = 800, AdditionalKwhCost = 30 }
             };
 
         }

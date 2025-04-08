@@ -1,5 +1,3 @@
-using Calculationervice.Services;
-using CalculationService.Model;
 using CalculationService.Models;
 using CalculationService.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -33,13 +31,6 @@ namespace CalculationService.Controllers
                 return NotFound("No electricity tariffs found.");
             }
 
-            //var results = tariffs.Select(tariff => new
-            //{
-            //    tariff.Provider,
-            //    tariff.Name,
-            //    tariff.Type,
-            //    AnnualCost = CalculateAnnualCost(tariff, kwh)
-            //});
             var results = tariffs.Select(tariff => new ConsumptionTariff(
                     tariff.Provider,
                     tariff.Name,
@@ -54,14 +45,14 @@ namespace CalculationService.Controllers
         {
             if (tariff.Type == 1) // Basic
             {
-                return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * kwh));
+                return (decimal)(tariff.BaseCost * 12 + (tariff.AdditionalKwhCost / 100 * kwh));
             }
             else if (tariff.Type == 2) // Package
             {
                 if (kwh <= tariff.IncludedKwh)
                     return (decimal)tariff.BaseCost;
                 else
-                    return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * (kwh - tariff.IncludedKwh)));
+                    return (decimal)(kwh <= tariff.IncludedKwh ? tariff.BaseCost : tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * (kwh - tariff.IncludedKwh)));
             }
             return 0;
         }

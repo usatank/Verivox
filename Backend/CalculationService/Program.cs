@@ -1,4 +1,3 @@
-using Calculationervice.Services;
 using CalculationService.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngular",
         policy =>
         {
-            policy.AllowAnyOrigin() //for test purpose
+            policy.AllowAnyOrigin() //for test purpose - should be domain & port of FE application
               .AllowAnyHeader()
               .AllowAnyMethod();
         });

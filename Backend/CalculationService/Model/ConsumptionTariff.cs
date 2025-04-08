@@ -1,4 +1,4 @@
-﻿namespace CalculationService.Model
+﻿namespace CalculationService.Models
 {
     public class ConsumptionTariff
     {

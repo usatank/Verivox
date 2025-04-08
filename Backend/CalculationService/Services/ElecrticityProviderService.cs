@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
-namespace Calculationervice.Services
+namespace CalculationService.Services
 {
     public class ElectricityProviderService : IElectricityProviderService
     {

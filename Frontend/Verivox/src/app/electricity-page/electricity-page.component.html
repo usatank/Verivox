@@ -24,6 +24,10 @@
           <option value="desc">Price: Descending</option>
         </select>
       </div>
+    </div>   
+
+    <div *ngIf="errorMessage" class="error-message">
+      ⚠ {{ errorMessage }}
     </div>
   
     <div class="tariff-list">
@@ -37,5 +41,5 @@
           <button>To Tariff ></button>
         </div>
       </div>
-    </div>
-  </div>
+    </div>    
+  </div> 

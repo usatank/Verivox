@@ -1,5 +1,3 @@
-using System.Transactions;
-
 namespace ElectricityServiceApi.Models
 {
     public class ElectricityTariff

@@ -3,9 +3,7 @@ using Moq;
 using CalculationService.Controllers;
 using CalculationService.Models;
 using Microsoft.Extensions.Logging;
-using Calculationervice.Services;
 using CalculationService.Services;
-using CalculationService.Model;
 
 namespace CalculationService.Tests
 {
@@ -22,8 +20,8 @@ namespace CalculationService.Tests
             _providerName = "Test Provider";
             _electricityTariffs = new List<ElectricityTariff>
             {
-                new ElectricityTariff () { Provider = _providerName, Name = "Product A", Type = 1, BaseCost = 10, AdditionalKwhCost = 25 },
-                new ElectricityTariff () { Provider = _providerName, Name = "Product B", Type = 2, IncludedKwh = 4000, BaseCost = 850, AdditionalKwhCost = 35 }
+                new ElectricityTariff () { Provider = _providerName, Name = "Product A", Type = 1, BaseCost = 5, AdditionalKwhCost = 22 },
+                new ElectricityTariff () { Provider = _providerName, Name = "Product B", Type = 2, IncludedKwh = 4000, BaseCost = 800, AdditionalKwhCost = 30 }
             };
             _mockService  = new Mock<IElectricityProviderService>();
             _mockService.Setup(s => s.GetElectricityTariffsAsync())
@@ -48,6 +46,70 @@ namespace CalculationService.Tests
             Assert.Equal(_electricityTariffs[0].Provider, costs[0].Provider);
             Assert.Equal(_electricityTariffs[0].Name, costs[0].Name);
             Assert.Equal(_electricityTariffs[0].Type, costs[0].Type);
+        }
+
+        [Fact]
+        public async Task CalculateCost_BadRequestInCaseOfZeroInput()
+        {
+            // Arrange
+            var controller = new CalculationController(_mockService.Object, _logger.Object);
+
+            // Act
+            var result = await controller.GetCalculation(0) as BadRequestObjectResult;
+            
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(400, result.StatusCode);
+            Assert.Equal("Please enter a valid kWh value (greater than zero).", result.Value?.ToString());
+        }
+
+        [Fact]
+        public async Task CalculateCost_BadRequestInCaseOfNegativeInput()
+        {
+            // Arrange
+            var controller = new CalculationController(_mockService.Object, _logger.Object);
+
+            // Act
+            var result = await controller.GetCalculation(-1) as BadRequestObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(400, result.StatusCode);
+            Assert.Equal("Please enter a valid kWh value (greater than zero).", result.Value?.ToString());
+        }
+
+        [Fact]
+        public async Task CalculateCost_NotFoundInCaseOfNullOrEmptyTariffs()
+        {
+            // Arrange
+            _mockService.Setup(s => s.GetElectricityTariffsAsync())
+                .ReturnsAsync((List<ElectricityTariff>?)null);
+            var controller = new CalculationController(_mockService.Object, _logger.Object);
+
+            // Act
+            var result = await controller.GetCalculation(2500) as NotFoundObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(404, result.StatusCode);
+            
+        }
+
+        [Fact]
+        public async Task CalculateCost_NotFoundInCaseOfEmptyTariffs()
+        {
+            // Arrange
+            _mockService.Setup(s => s.GetElectricityTariffsAsync())
+                .ReturnsAsync(new List<ElectricityTariff>());
+            var controller = new CalculationController(_mockService.Object, _logger.Object);
+
+            // Act
+            var result = await controller.GetCalculation(2500) as NotFoundObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(404, result.StatusCode);
+            
         }
     }
 }
