@@ -5,10 +5,10 @@ import { GasPageComponent } from './gas-page/gas-page.component';
 import { InsurancePageComponent } from './insurance-page/insurance-page.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home-page-component', pathMatch: 'full' }, // Redirects empty path to HomeComponent
-    { path: 'home-page-component', component: HomePageComponent },
-    { path: 'electricity-page-component', component: ElectricityPageComponent},
-    { path: 'gas-page-component', component: GasPageComponent},
-    { path: 'insurance-page-component', component: InsurancePageComponent},
-    { path: '**', redirectTo: 'home-page-component' } // Redirects unknown routes to home
+    { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirects empty path to HomeComponent
+    { path: 'home', component: HomePageComponent },
+    { path: 'electricity', component: ElectricityPageComponent},
+    { path: 'gas', component: GasPageComponent},
+    { path: 'insurance', component: InsurancePageComponent},
+    { path: '**', redirectTo: 'home' } // Redirects unknown routes to home
 ];
