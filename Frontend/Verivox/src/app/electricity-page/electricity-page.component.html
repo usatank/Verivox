@@ -30,7 +30,7 @@
       <div class="tariff-item" *ngFor="let tariff of filteredTariffs; let i = index">
         <div class="tariff-content">
           <h3>{{ i + 1 }}. {{ tariff.provider }} : {{tariff.name}}</h3>
-          <p>{{ tariff.type }} tariff</p>
+          <p>{{ tariff.type === 1 ? "Basic" : "Package"}} tariff</p>
         </div>
         <div class="tariff-price">
           <h3>{{ tariff.annualCost | currency:'EUR' }}</h3>
