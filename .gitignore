@@ -5,3 +5,5 @@
 /Backend/ElectricityServiceApi/obj
 Backend/CalculationService/CalculationService.csproj.user
 Backend/ElectricityServiceApi/ElectricityServiceApi.csproj.user
+/Frontend/Verivox/.vscode
+Frontend/Verivox/package-lock.json

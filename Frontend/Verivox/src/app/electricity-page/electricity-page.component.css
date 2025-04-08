@@ -1,0 +1,85 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff3ec;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    text-align: left;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  input[type="number"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background: #ff6200;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #e55b00;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .tariff-type, .sort {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tariff-list {
+    margin-top: 20px;
+  }
+  
+  .tariff-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+  }
+  
+  .tariff-price h3 {
+    color: #ff6200;
+    margin: 0;
+  }
+  
+  .tariff-content h3 {
+    margin: 0;
+  }
+  
+  .tariff-content p {
+    color: gray;
+    margin: 5px 0 0;
+  }
+
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }

@@ -1,0 +1,41 @@
+  <div class="container">
+    <div class="header">
+      <h2>Please enter your yearly consumption</h2>
+      <div class="input-group">
+        <input type="number" placeholder="Yearly consumption in kWh" [(ngModel)]="consumption"
+          (input)="validateConsumption()" #consumptionInput="ngModel" required min="1">
+        <button (click)="compareTariffs()" [disabled]="!isValidConsumption">GO COMPARE</button>
+      </div>
+      <p class="error" *ngIf="!isValidConsumption">⚠ Please enter a valid kWh value (greater than zero).</p>
+    </div>
+  
+    <div class="filters">
+      <div class="tariff-type">
+        <h4>Filtered by tariff type</h4>
+        <label><input type="radio" name="tariffType" [(ngModel)]="selectedType" value="Basic"> Basic</label>
+        <label><input type="radio" name="tariffType" [(ngModel)]="selectedType" value="Package"> Package</label>
+        <label><input type="radio" name="tariffType" [(ngModel)]="selectedType" value="All" checked> All</label>
+      </div>
+  
+      <div class="sort">
+        <h4>Sort by</h4>
+        <select [(ngModel)]="sortOrder">
+          <option value="asc">Price: Ascending</option>
+          <option value="desc">Price: Descending</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="tariff-list">
+      <div class="tariff-item" *ngFor="let tariff of filteredTariffs; let i = index">
+        <div class="tariff-content">
+          <h3>{{ i + 1 }}. {{ tariff.provider }} : {{tariff.name}}</h3>
+          <p>{{ tariff.type }} tariff</p>
+        </div>
+        <div class="tariff-price">
+          <h3>{{ tariff.annualCost | currency:'EUR' }}</h3>
+          <button>To Tariff ></button>
+        </div>
+      </div>
+    </div>
+  </div>
