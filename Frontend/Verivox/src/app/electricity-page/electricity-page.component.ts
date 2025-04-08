@@ -36,7 +36,6 @@ export class ElectricityPageComponent {
   compareTariffs() {
     this.validateConsumption();
     if (this.isValidConsumption) {
-      //console.log(`Comparing for ${this.consumption} kWh`);
       this.http.get<any[]>(`http://localhost:5050/api/calculate/?kwh=${this.consumption}`)
       .subscribe(data => {
         this.tariffs = data;

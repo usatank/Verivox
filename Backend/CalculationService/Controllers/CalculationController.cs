@@ -1,57 +1,69 @@
+using Calculationervice.Services;
+using CalculationService.Model;
 using CalculationService.Models;
+using CalculationService.Services;
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/calculate")]
-public class CalculationController : ControllerBase
+namespace CalculationService.Controllers
 {
-    private readonly ElectricityProviderService _electricityProviderService;
-    private readonly ILogger<CalculationController> _logger;
-
-    public CalculationController(ElectricityProviderService electricityProviderService, ILogger<CalculationController> logger)
+    [ApiController]
+    [Route("api/calculate")]
+    public class CalculationController : ControllerBase
     {
-        _electricityProviderService = electricityProviderService;
-        _logger = logger;
-    }
+        private readonly IElectricityProviderService _electricityProviderService;
+        private readonly ILogger<CalculationController> _logger;
 
-    [HttpGet]
-    public async Task<IActionResult> GetCalculation([FromQuery] int kwh)
-    {
-        if (kwh <= 0) 
+        public CalculationController(IElectricityProviderService electricityProviderService, ILogger<CalculationController> logger)
         {
-            return BadRequest("Please enter a valid kWh value (greater than zero).");
+            _electricityProviderService = electricityProviderService;
+            _logger = logger;
         }
 
-        var tariffs = await _electricityProviderService.GetElectricityTariffsAsync();
-        if (tariffs == null || tariffs.Count == 0)
+        [HttpGet]
+        public async Task<IActionResult> GetCalculation([FromQuery] int kwh)
         {
-            return NotFound("No electricity tariffs found.");
+            if (kwh <= 0)
+            {
+                return BadRequest("Please enter a valid kWh value (greater than zero).");
+            }
+
+            var tariffs = await _electricityProviderService.GetElectricityTariffsAsync();
+            if (tariffs == null || tariffs.Count == 0)
+            {
+                return NotFound("No electricity tariffs found.");
+            }
+
+            //var results = tariffs.Select(tariff => new
+            //{
+            //    tariff.Provider,
+            //    tariff.Name,
+            //    tariff.Type,
+            //    AnnualCost = CalculateAnnualCost(tariff, kwh)
+            //});
+            var results = tariffs.Select(tariff => new ConsumptionTariff(
+                    tariff.Provider,
+                    tariff.Name,
+                    tariff.Type,
+                    CalculateAnnualCost(tariff, kwh)
+                )).ToList();
+
+            return Ok(results);
         }
 
-        var results = tariffs.Select(tariff => new
+        private decimal CalculateAnnualCost(ElectricityTariff tariff, int kwh)
         {
-            tariff.Provider,
-            tariff.Name,
-            tariff.Type,
-            AnnualCost = CalculateAnnualCost(tariff, kwh)
-        });
-
-        return Ok(results);
-    }
-
-    private decimal CalculateAnnualCost(ElectricityTariff tariff, int kwh)
-    {
-        if (tariff.Type == 1) // Basic
-        {
-            return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * kwh));
+            if (tariff.Type == 1) // Basic
+            {
+                return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * kwh));
+            }
+            else if (tariff.Type == 2) // Package
+            {
+                if (kwh <= tariff.IncludedKwh)
+                    return (decimal)tariff.BaseCost;
+                else
+                    return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * (kwh - tariff.IncludedKwh)));
+            }
+            return 0;
         }
-        else if (tariff.Type == 2) // Package
-        {
-            if (kwh <= tariff.IncludedKwh)
-                return (decimal)tariff.BaseCost;
-            else
-                return (decimal)(tariff.BaseCost + (tariff.AdditionalKwhCost / 100 * (kwh - tariff.IncludedKwh)));
-        }
-        return 0;
     }
 }

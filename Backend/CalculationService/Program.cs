@@ -1,3 +1,5 @@
+using Calculationervice.Services;
+using CalculationService.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
@@ -42,7 +44,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>
     return redisEnabled ? ConnectionMultiplexer.Connect(conntectionString) : null;
 });
 builder.Services.AddSingleton<IDistributedCache, MemoryDistributedCache>(); // Fallback if Redis is disabled
-builder.Services.AddSingleton<ElectricityProviderService>();
+builder.Services.AddScoped<IElectricityProviderService, ElectricityProviderService>();
+//builder.Services.AddSingleton<ElectricityProviderService>();
 
 var app = builder.Build();
 

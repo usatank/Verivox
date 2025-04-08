@@ -7,3 +7,7 @@ Backend/CalculationService/CalculationService.csproj.user
 Backend/ElectricityServiceApi/ElectricityServiceApi.csproj.user
 /Frontend/Verivox/.vscode
 Frontend/Verivox/package-lock.json
+/Backend/Tests/CalculationService.Tests/bin
+/Backend/Tests/CalculationService.Tests/obj
+/Backend/Tests/ElectricityServiceApi.Tests/bin
+/Backend/Tests/ElectricityServiceApi.Tests/obj
