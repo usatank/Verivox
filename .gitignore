@@ -1,0 +1,7 @@
+/.vs
+/Backend/CalculationService/bin
+/Backend/CalculationService/obj
+/Backend/ElectricityServiceApi/bin
+/Backend/ElectricityServiceApi/obj
+Backend/CalculationService/CalculationService.csproj.user
+Backend/ElectricityServiceApi/ElectricityServiceApi.csproj.user

@@ -1,0 +1,21 @@
+{
+    "Providers": [
+      {
+        "ProviderName": "Stadtwerke Duesseldorf AG",
+        "Port": 5001
+      },
+      {
+        "ProviderName": "Vattenfall",
+        "Port": 5002
+      },
+      {
+        "ProviderName": "E.ON",
+        "Port": 5003
+      },
+      {
+        "ProviderName": "Octopus Energy",
+        "Port": 5004
+      }
+    ]
+  }
+  
